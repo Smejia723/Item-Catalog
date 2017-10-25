@@ -1,0 +1,104 @@
+body {
+    font-family: sans-serif;
+    background-color: #A8D0E6
+}
+
+@media only screen and (max-width: 1024px) {
+  #lets-connect {
+    margin-top: 5%;
+  }
+}
+
+@media only screen and (max-width:900px) {
+  .biopic {
+    width: 175px;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  #lets-connect {
+    margin-top: 10%;
+  }
+  .biopic {
+    width: 150px;
+  }
+  .welcome-message {
+    display: none;
+  }
+}
+
+h1,
+h2,
+h3,
+h4 {
+    color: #C2CAD0;
+}
+
+h1,
+h2 {
+    font-family: 'georgia', serif;
+    margin: 0;
+}
+
+h1 {
+    border-bottom: 2px solid #C2B9B0;
+}
+
+h2 {
+    font-size: 1.2em;
+}
+
+p,
+dd,
+dt {
+    color: #AFD275;
+}
+
+a {
+    text-decoration: none;
+    color: #7E685A;
+    font-size: .75em;
+}
+
+.pane {
+    position: absolute;
+    left: 25%;
+    border: 2px solid;
+    border-radius: 25px;
+    padding: 5px;
+    margin: 5px;
+    border-color: #999999;
+    background-color: #333333
+}
+
+.header {
+    text-align: right;
+    left: 50%;
+    border-color: #999999;
+    background-color: #333333
+}
+
+.name {
+    width: 50%;
+    display: inline-block;
+    float: left;
+}
+
+.description {
+    text-align: left;
+    width: 50%;
+    float: left;
+}
+}
+
+.price {
+    text-align: right;
+    width: 50%;
+    float: right;
+}
+
+.editdeletepane {}
+
+.flash {
+    background: #cee5f5;
+}
