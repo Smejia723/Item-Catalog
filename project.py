@@ -3,8 +3,7 @@ import json
 import requests
 import random
 import string
-from flask import Flask, render_template, request,
-redirect, jsonify, url_for, flash
+from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from database_setup import Base, Restaurant, MenuItem, User
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -40,7 +39,7 @@ def showLogin():
     return render_template('login.html', STATE=state)
 
 
-@app.route('.gconnect', methods=['POST'])
+@app.route('/gconnect', methods=['POST'])
 def gconnect():
     # Validate state token
     if request.args.get('state') != login_session['state']:
@@ -146,8 +145,7 @@ def gdisconnect():
     print 'In gdisconnect access token is %s', access_token
     print 'User name is: '
     print login_session['username']
-    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s',
-    % login_session['access_token']
+    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
     print 'result is '
