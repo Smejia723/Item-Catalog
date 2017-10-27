@@ -192,7 +192,7 @@ def menuItemJSON(restaurant_id, menu_id):
 @app.route('/')
 @app.route('/restaurants/')
 def showRestaurants():
-    restaurants = session.query(Restaurant).order_by(asc(Restaurant.name))
+    restaurants = session.query(Restaurant).order_by(Restaurant.name.asc())
     if 'username' not in login_session:
         return render_template(
             'publicrestaurant.html',
