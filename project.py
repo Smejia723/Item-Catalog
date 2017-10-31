@@ -3,9 +3,19 @@ import json
 import requests
 import random
 import string
-from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
-from database_setup import Base, Restaurant, MenuItem, User
+from flask import Flask
+from flask import render_template
+from flask import request
+from flask import redirect
+from flask import jsonify
+from flask import url_for
+from flask import flash
+from database_setup import Base
+from database_setup import Restaurant
+from database_setup import MenuItem
+from database_setup import User
 from sqlalchemy import create_engine
+from sqlalchemy import asc
 from sqlalchemy.orm import sessionmaker
 
 # New Imports for anti forgery
@@ -62,8 +72,7 @@ def gconnect():
 
     # Check that the access token is valid.
     access_token = credentials.access_token
-    url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s'
-           % access_token)
+    url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s' % access_token)
     h = httplib2.Http()
     result = json.loads(h.request(url, 'GET')[1])
     # If there was an error in the access token info, abort.
@@ -124,7 +133,9 @@ def gconnect():
     output += '!</h1>'
     output += '<img src="'
     output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+
+    output += ' " <style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;>"'
+
     flash("you are now logged in as %s" % login_session['username'])
     print "done!"
     return output
@@ -193,13 +204,20 @@ def menuItemJSON(restaurant_id, menu_id):
 @app.route('/restaurants/')
 def showRestaurants():
     restaurants = session.query(Restaurant).order_by(asc(Restaurant.name))
+#    print "restaurant", restaurants
+#    for restaurant in restaurants:
+#        print restaurant.name, restaurant.user_id
+#    return "showRestaurants"
     if 'username' not in login_session:
         return render_template(
             'publicrestaurant.html',
             restaurants=restaurants
             )
     else:
-        return render_template('restaurant.html', restaurants=restaurants)
+        return render_template(
+            'restaurant.html',
+            restaurants=restaurants
+            )
 
 
 @app.route('/restaurants/new/', methods=['GET', 'POST'])
@@ -257,7 +275,6 @@ def deleteRestaurant(restaurant_id):
             'deleterestaurant.html', restaurant=deleteRestaurant)
 
 
-@app.route('/')
 @app.route('/restaurants/<int:restaurant_id>/menu')
 def restaurantMenu(restaurant_id):
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
@@ -269,14 +286,14 @@ def restaurantMenu(restaurant_id):
         return render_template(
             'publicmenu.html',
             items=items,
-            restaurant=restaurant,
+            restaurants=restaurants,
             creator=creator
             )
     else:
         return render_template(
             'menu.html',
             items=items,
-            restaurant=restaurant,
+            restaurants=restaurants,
             creator=creator
             )
     output = ''
@@ -288,7 +305,7 @@ def restaurantMenu(restaurant_id):
         output += i.price
         output += '</br>'
         output += '</br>'
-    return render_template('menu.html', restaurant=restaurant, items=items)
+    return render_template('menu.html', restaurants=restaurants, items=items)
 
 # Task 1: Create route for newMenuItem function here
 
@@ -348,7 +365,7 @@ def editMenuItem(restaurant_id, menu_id):
 
 
 @app.route(
-            '/restaurant/<int:restaurant_id>/menu/<int:menu_id>/delete',
+            '/restaurants/<int:restaurant_id>/menu/<int:menu_id>/delete',
             methods=['GET', 'POST']
             )
 def deleteMenuItem(restaurant_id, menu_id):
@@ -388,6 +405,7 @@ def createUser(login_session):
     return user.id
 
 if __name__ == '__main__':
+    # Should be in another file area
     app.secret_key = 'super_secret_key'
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
