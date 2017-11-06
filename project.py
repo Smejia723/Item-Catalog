@@ -186,7 +186,7 @@ def restaurantsJSON():
 
 @app.route('/restaurants/<int:restaurant_id>/menu/JSON')
 def restaurantMenuJSON(restaurant_id):
-    restaurants = session.query(Restaurant).filter_by(id=restaurant_id).one()
+    restaurants = session.query(Restaurant).filter_by(id=restaurant_id).one_or_none()
     items = session.query(MenuItem).filter_by(
         restaurant_id=restaurant.id).all()
     return jsonify(MenuItem=[i.serialize for i in items])
@@ -194,7 +194,7 @@ def restaurantMenuJSON(restaurant_id):
 
 @app.route('/restaurants/menu/<int:menu_id>/JSON')
 def menuItemJSON(restaurant_id, menu_id):
-    menuItem = session.query(MenuItem).filter_by(id=menu_id).one()
+    menuItem = session.query(MenuItem).filter_by(id=menu_id).one_or_none()
     return jsonify(MenuItem=menuItem.serialize)
 
 # Making an API Endpoint (Get Request)
@@ -241,7 +241,7 @@ def editRestaurant(restaurant_id):
     if 'username' not in login_session:
         return redirect('/login')
     editedRestaurant = session.query(
-        Restaurant).filter_by(id=restaurant_id).one()
+        Restaurant).filter_by(id=restaurant_id).one_or_none()
     if request.method == 'POST':
         if request.form['name']:
             editedRestaurant.name = request.form['name']
@@ -261,7 +261,7 @@ def deleteRestaurant(restaurant_id):
         "' Please create your own restaurant in order to delete.');}"
         "</script><body onload = 'myFunction()''>"
     deleteRestaurant = session.query(
-        Restaurant).filter_by(id=restaurant_id).one()
+        Restaurant).filter_by(id=restaurant_id).one_or_none()
     if request.method == 'Post':
         session.delete(deleteRestaurant)
         session.commit()
@@ -277,7 +277,7 @@ def deleteRestaurant(restaurant_id):
 
 @app.route('/restaurants/<int:restaurant_id>/menu')
 def restaurantMenu(restaurant_id):
-    restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
+    restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one_or_none()
     creator = getUserInfo(restaurant.user_id)
     items = session.query(
         MenuItem
@@ -286,14 +286,14 @@ def restaurantMenu(restaurant_id):
         return render_template(
             'publicmenu.html',
             items=items,
-            restaurants=restaurants,
+            restaurant=restaurant,
             creator=creator
             )
     else:
         return render_template(
             'menu.html',
             items=items,
-            restaurants=restaurants,
+            restaurant=restaurant,
             creator=creator
             )
     output = ''
@@ -340,7 +340,7 @@ def newMenuItem(restaurant_id):
 def editMenuItem(restaurant_id, menu_id):
     if 'username' not in login_session:
         return redirect('/login')
-    editedItem = session.query(MenuItem).filter_by(id=menu_id).one()
+    editedItem = session.query(MenuItem).filter_by(id=menu_id).one_or_none()
     if request.method == 'POST':
         if request.form['name']:
             editedItem.name = request.form['name']
@@ -371,7 +371,7 @@ def editMenuItem(restaurant_id, menu_id):
 def deleteMenuItem(restaurant_id, menu_id):
     if 'username' not in login_session:
         return redirect('/login')
-    itemToDelete = session.query(MenuItem).filter_by(id=menu_id).one()
+    itemToDelete = session.query(MenuItem).filter_by(id=menu_id).one_or_none()
     if request.method == 'POST':
         session.delete(itemToDelete)
         session.commit()
@@ -383,14 +383,14 @@ def deleteMenuItem(restaurant_id, menu_id):
 
 def getUserID(email):
     try:
-        user = session.query(User).filter_by(email=email).one()
+        user = session.query(User).filter_by(email=email).one_or_none()
         return user.id
     except:
         return None
 
 
 def getUserInfo(user_id):
-    user = session.query(User).filter_by(id=user_id).one()
+    user = session.query(User).filter_by(id=user_id).one_or_none()
     return user
 
 
@@ -401,7 +401,7 @@ def createUser(login_session):
         picture=login_session['picture'])
     session.add(newUser)
     session.commit()
-    user = session.query(user).filter_by(email=login_session['email']).one()
+    user = session.query(user).filter_by(email=login_session['email']).one_or_none()
     return user.id
 
 if __name__ == '__main__':
