@@ -61,7 +61,7 @@ def gconnect():
 
     try:
         # Upgrade the authorization code into a credentials object
-        oauth_flow = flow_from_clientsecrets('client_secrets_.json', scope='')
+        oauth_flow = flow_from_clientsecrets('client_secret_.json', scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
@@ -125,7 +125,7 @@ def gconnect():
     user_id = getUserID(login_session['email'])
     if not user_id:
         user_id = createUser(login_session)
-        login_session['user_id'] = user_id
+    login_session['user_id'] = user_id
 
     output = ''
     output += '<h1>Welcome, '
@@ -188,11 +188,11 @@ def restaurantsJSON():
 def restaurantMenuJSON(restaurant_id):
     restaurants = session.query(Restaurant).filter_by(id=restaurant_id).one_or_none()
     items = session.query(MenuItem).filter_by(
-        restaurant_id=restaurant.id).all()
+        restaurant_id=restaurants.id).all()
     return jsonify(MenuItem=[i.serialize for i in items])
 
 
-@app.route('/restaurants/menu/<int:menu_id>/JSON')
+@app.route('/restaurants/<int:restaurant_id>/menu/<int:menu_id>/JSON')
 def menuItemJSON(restaurant_id, menu_id):
     menuItem = session.query(MenuItem).filter_by(id=menu_id).one_or_none()
     return jsonify(MenuItem=menuItem.serialize)
@@ -282,7 +282,7 @@ def restaurantMenu(restaurant_id):
     items = session.query(
         MenuItem
         ).filter_by(restaurant_id=restaurant.id).all()
-    if'username'not in login_session or creator.id != login_session['user_id']:
+    if 'username' not in login_session or creator.id != login_session['user_id']:
         return render_template(
             'publicmenu.html',
             items=items,
@@ -321,7 +321,8 @@ def newMenuItem(restaurant_id):
             price=request.form['price'],
             course=request.form['course'],
             restaurant_id=restaurant_id,
-            user_id=restaurant.user_id)
+            user_id=restaurant.user_id
+            )
         session.add(newItem)
         session.commit()
         flash("new menu item created!")
@@ -341,6 +342,11 @@ def editMenuItem(restaurant_id, menu_id):
     if 'username' not in login_session:
         return redirect('/login')
     editedItem = session.query(MenuItem).filter_by(id=menu_id).one_or_none()
+    if login_session['user_id'] != restaurant.user_id:
+        return "<script>function myFunction()"
+        "{alert(' You are not authorized to delete this restaurant.'"
+        "' Please create your own restaurant in order to delete.');}"
+        "</script><body onload = 'myFunction()''>"
     if request.method == 'POST':
         if request.form['name']:
             editedItem.name = request.form['name']
@@ -372,6 +378,11 @@ def deleteMenuItem(restaurant_id, menu_id):
     if 'username' not in login_session:
         return redirect('/login')
     itemToDelete = session.query(MenuItem).filter_by(id=menu_id).one_or_none()
+    if login_session['user_id'] != restaurant.user_id:
+        return "<script>function myFunction()"
+        "{alert(' You are not authorized to delete this restaurant.'"
+        "' Please create your own restaurant in order to delete.');}"
+        "</script><body onload = 'myFunction()''>"
     if request.method == 'POST':
         session.delete(itemToDelete)
         session.commit()
@@ -401,7 +412,7 @@ def createUser(login_session):
         picture=login_session['picture'])
     session.add(newUser)
     session.commit()
-    user = session.query(user).filter_by(email=login_session['email']).one_or_none()
+    user = session.query(User).filter_by(email=login_session['email']).one_or_none()
     return user.id
 
 if __name__ == '__main__':
