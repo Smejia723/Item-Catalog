@@ -72,7 +72,10 @@ def gconnect():
 
     # Check that the access token is valid.
     access_token = credentials.access_token
-    url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s' % access_token)
+    url = (
+        'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s'
+        % access_token
+        )
     h = httplib2.Http()
     result = json.loads(h.request(url, 'GET')[1])
     # If there was an error in the access token info, abort.
@@ -186,7 +189,9 @@ def restaurantsJSON():
 
 @app.route('/restaurants/<int:restaurant_id>/menu/JSON')
 def restaurantMenuJSON(restaurant_id):
-    restaurants = session.query(Restaurant).filter_by(id=restaurant_id).one_or_none()
+    restaurants = session.query(
+        Restaurant
+        ).filter_by(id=restaurant_id).one_or_none()
     items = session.query(MenuItem).filter_by(
         restaurant_id=restaurants.id).all()
     return jsonify(MenuItem=[i.serialize for i in items])
@@ -277,7 +282,9 @@ def deleteRestaurant(restaurant_id):
 
 @app.route('/restaurants/<int:restaurant_id>/menu')
 def restaurantMenu(restaurant_id):
-    restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one_or_none()
+    restaurant = session.query(
+        Restaurant
+        ).filter_by(id=restaurant_id).one_or_none()
     creator = getUserInfo(restaurant.user_id)
     items = session.query(
         MenuItem
@@ -412,7 +419,9 @@ def createUser(login_session):
         picture=login_session['picture'])
     session.add(newUser)
     session.commit()
-    user = session.query(User).filter_by(email=login_session['email']).one_or_none()
+    user = session.query(
+        User
+        ).filter_by(email=login_session['email']).one_or_none()
     return user.id
 
 if __name__ == '__main__':
