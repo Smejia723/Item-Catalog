@@ -16,9 +16,9 @@ Then access the shell with:
 
 `vagrant ssh`
 
-Then move inside the catalog folder:
+Then then navigate in the vagrant with:
 
-`cd /vagrant/catalog`
+`cd /vagrant` then ` cd catalog`
 
 Then run the application:
 
