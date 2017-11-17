@@ -5,6 +5,9 @@
     <body>
         <h1>New Menu Item</h1>
 
+        <div class="text-right">
+            <a href="{{url_for('gdisconnect')}}">Click Here to Logout </a>
+        </div>
 
         <form action = "{{ url_for('newMenuItem', restaurant_id=restaurant_id )}}"
         method = 'post'>
