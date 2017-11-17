@@ -119,7 +119,7 @@ def gconnect():
     answer = requests.get(userinfo_url, params=params)
 
     data = answer.json()
-
+    login_session['provider'] = 'google'
     login_session['username'] = data['name']
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
@@ -137,7 +137,8 @@ def gconnect():
     output += '<img src="'
     output += login_session['picture']
 
-    output += ' " <style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;>"'
+    output += ' " <style = "width: 300px; height: 300px;border-radius: 150px;-\
+    webkit-border-radius: 150px;-moz-border-radius: 150px;>"'
 
     flash("you are now logged in as %s" % login_session['username'])
     print "done!"
@@ -172,7 +173,7 @@ def gdisconnect():
         del login_session['picture']
         response = make_response(json.dumps('Successfully disconnected.'), 200)
         response.headers['Content-Type'] = 'application/json'
-        return response
+        return redirect(url_for('showRestaurants'))
     else:
         response = make_response(json.dumps(
             'Failed to revoke token for given user.', 400)
