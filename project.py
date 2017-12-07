@@ -1,8 +1,10 @@
+# imports parts from python
 import httplib2
 import json
 import requests
 import random
 import string
+#imports from flask webdevelopment framework for Python
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -14,6 +16,7 @@ from database_setup import Base
 from database_setup import Restaurant
 from database_setup import MenuItem
 from database_setup import User
+# impirts from SQLAlchemy, Python SQL toolkit
 from sqlalchemy import create_engine
 from sqlalchemy import asc
 from sqlalchemy.orm import sessionmaker
@@ -181,13 +184,13 @@ def gdisconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
-
+# JSON for Database to colect info on restaurants
 @app.route('/restaurants/JSON')
 def restaurantsJSON():
     restaurants = session.query(Restaurant).all()
     return jsonify(restaurants=[r.serialize for r in restaurants])
 
-
+# JSON for Database to colect info on items in restaurant Menus
 @app.route('/restaurants/<int:restaurant_id>/menu/JSON')
 def restaurantMenuJSON(restaurant_id):
     restaurants = session.query(
