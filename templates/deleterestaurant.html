@@ -3,15 +3,18 @@
         <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
     </head>
     <body>
+        <div class="text-right">
+            <a href="{{url_for('gdisconnect')}}">Click Here to Logout </a>
+        </div>
+
         <div class = 'pane'>
             <h1> Are you sure you want to delete {{restaurant.name}}? </h1>
 
             <form action="#" method = 'post'>
 
-                <input type="submit", class="btn btn-default delete", id="submit", value = 'Delete'>
-
-
-
+                <button type="submit", class="btn btn-default delete", id="submit", type="submit">
+                Delete</button>
+                <a href = '{{url_for('showRestaurants')}}'>
 
             </form>
 
