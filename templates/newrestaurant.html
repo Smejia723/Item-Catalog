@@ -10,12 +10,13 @@
         </div>
 
         <form action = "#"
-        method = 'post'>
+        method = 'POST'>
 
         <p>Name:</p>
             <input type = 'text' size='30' name='name'>
 
-        <input type='submit' value='create'>
+        <input type='submit' value='Create'>
+        <a href = '{{url_for('showRestaurants')}}'><button type="submit" class="btn btn-default delete" id="submit" type="submit"> Cancel</button> </a>
         </form>
     </body>
 </html>

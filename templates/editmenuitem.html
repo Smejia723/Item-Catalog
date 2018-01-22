@@ -4,15 +4,14 @@
     </head>
     <body><h1> Edit Menu Item </h1>
 
-        <form action="#" method = 'post'>
+        <form action="#" method = 'POST'>
 
         <div class="text-right">
             <a href="{{url_for('gdisconnect')}}">Click Here to Logout </a>
         </div>
 
         <div class = 'pane'>
-            <form action = "{{ url_for('editRestaurant', restaurant_id=restaurant.id)}}"
-            method = 'post'>
+            <form action = "#" method = 'POST'>
             <p>Name:</p>
                 <input type ='text' size='30' name='name' placeholder = '{{item.name }}'>
             <p>Description:</p>
@@ -55,7 +54,7 @@
             <input type='submit' value='Edit'>
 
 
-            <a href = '{{url_for('restaurantMenu')}}'> Cancel </a>
+            <a href = '{{url_for('restaurantMenu', restaurant_id = restaurant_id)}}'><button type="submit" class="btn btn-default delete" id="submit" type="submit"> Cancel</button> </a>
         </div>
 
 
