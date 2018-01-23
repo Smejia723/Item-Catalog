@@ -1,37 +1,13 @@
 body {
     font-family: sans-serif;
-    background-color: #A8D0E6
-}
-
-@media only screen and (max-width: 1024px) {
-  #lets-connect {
-    margin-top: 5%;
-  }
-}
-
-@media only screen and (max-width:900px) {
-  .biopic {
-    width: 175px;
-  }
-}
-
-@media only screen and (max-width: 750px) {
-  #lets-connect {
-    margin-top: 10%;
-  }
-  .biopic {
-    width: 150px;
-  }
-  .welcome-message {
-    display: none;
-  }
+    background-color: #333333
 }
 
 h1,
 h2,
 h3,
 h4 {
-    color: #C2CAD0;
+    color: #ffffff;
 }
 
 h1,
@@ -41,7 +17,7 @@ h2 {
 }
 
 h1 {
-    border-bottom: 2px solid #C2B9B0;
+    border-bottom: 2px solid #eee;
 }
 
 h2 {
@@ -51,12 +27,12 @@ h2 {
 p,
 dd,
 dt {
-    color: #AFD275;
+    color: #cccccc;
 }
 
 a {
     text-decoration: none;
-    color: #7E685A;
+    color: #ffffcc;
     font-size: .75em;
 }
 
@@ -72,10 +48,8 @@ a {
 }
 
 .header {
-    text-align: right;
     left: 50%;
-    border-color: #999999;
-    background-color: #333333
+    text-align: center;
 }
 
 .name {
@@ -85,11 +59,9 @@ a {
 }
 
 .description {
-    text-align: left;
-    width: 50%;
-    float: left;
+
 }
-}
+
 
 .price {
     text-align: right;
