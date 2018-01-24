@@ -361,7 +361,7 @@ def editMenuItem(restaurant_id, menu_id):
         if request.form['name']:
             editedItem.name = request.form['name']
         if request.form['description']:
-            editedItem.description = request.form['name']
+            editedItem.description = request.form['description']
         if request.form['price']:
             editedItem.price = request.form['price']
         if request.form['course']:
@@ -370,7 +370,6 @@ def editMenuItem(restaurant_id, menu_id):
         session.commit()
         return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
     else:
-
         return render_template(
             'editmenuitem.html',
             restaurant_id=restaurant_id,
@@ -397,10 +396,15 @@ def deleteMenuItem(restaurant_id, menu_id):
     if request.method == 'POST':
         session.delete(itemToDelete)
         session.commit()
+        flash("item has been deleted!")
         return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
     else:
-        return render_template('deleteMenuItem.html', item=itemToDelete)
-
+        return render_template(
+            'deleteMenuItem.html',
+            restaurant_id=restaurant_id,
+            menu_id=menu_id,
+            item=itemToDelete
+            )
 
 def getUserID(email):
     try:
