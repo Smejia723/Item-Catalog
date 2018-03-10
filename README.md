@@ -12,19 +12,19 @@ Launch the Vagrant VM from inside the vagrant folder with:
 
 `vagrant up`
 
-Then access the shell with:
+Access the shell with:
 
 `vagrant ssh`
 
-Then then navigate in the vagrant with:
+Navigate in the vagrant with:
 
 `cd /vagrant` then ` cd catalog`
 
-Then run the application:
+Run the application:
 
 `python application.py`
 
-After the last command you are able to browse the application at this URL:
+You are able to browse the application at this URL:
 
 `http://localhost:5000/`
 
