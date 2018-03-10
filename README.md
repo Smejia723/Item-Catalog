@@ -6,6 +6,8 @@ A Udacity project that provides a list of items within a set of categories and i
 
 2. Look for the file *catalog* which should be in your FSND-Virtual-Machine file to add the contents of this respository.
 
+3. Launch Gitbash (Download [gitBash](https://git-scm.com/download/win) here if you have not.)
+
 # Launch
 
 Launch the Vagrant VM from inside the vagrant folder with:
